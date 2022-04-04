@@ -1,0 +1,54 @@
+#include <time.h>
+#include <LiquidCrystal.h>            //the liquid crystal library contains commands for printing to the display
+
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8);     // tell the RedBoard what pins are connected to the display
+
+
+int Dice = 2;     //the pin the buttons connected to
+int Game = 4;     //the pin the buttons connected to
+int D1;     //declaring dice
+bool playing = true;      //declaring playing loop
+const int arraySize = 10;     //array size
+const char* games[arraySize] = {"Coin Flip", "Rochambeau", "Tic Tac Toe", "Thumb War", "Cup Pong", "Flip Cup", "Coin Spin", "Stare Contest", "Paper Football", "Hand Slap",    //array full of our games
+};
+
+
+//end of random order
+int main() {
+    pinMode(Dice, INPUT_PULLUP);    //checks the state of the pin
+    pinMode(Game, INPUT_PULLUP);  
+
+    lcd.begin(16, 2);   //turns on the lcd and sets its size parameters
+      lcd.setCursor (3,0);
+     lcd.print("Welcome to"); //prints text onto the lcd
+      lcd.setCursor (3,1);
+      lcd.print("Gamception");
+
+    while (playing = true) {    //while still playing loop through these if statements
+        if (digitalRead(Dice) == LOW ) {      //if the dice button is pushed
+           srand ( time(NULL) ); //random time  
+           D1 = random(1,7);     //the minimum and max value of the dice
+             lcd.setCursor (5,0);   //sets the lcd start at 0,0
+             lcd.clear();       //clears screen
+             lcd.print ("You rolled a  " );     //prints out the value of the dice
+            lcd.print (D1);
+            
+        }
+
+        if (digitalRead(Game) == LOW ) {  //if the game button is pushed
+            srand ( time(NULL) ); //random time
+            int RandIndex = random(1,10) ; //generates a random number between 1 and 10 
+            lcd.clear();  
+            lcd.setCursor (1,0); 
+            lcd.print ("Your Game Is: ");
+            lcd.setCursor (2,1);  
+            lcd.print (games[RandIndex]); //prints a random game from the array based off of the random number generated above
+
+        }
+
+    
+      
+    }
+
+    return 0;
+}
